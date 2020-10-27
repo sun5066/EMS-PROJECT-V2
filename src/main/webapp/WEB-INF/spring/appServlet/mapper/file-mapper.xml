@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.biz.ems.mapper.FileDao">
+
+    <insert id="insert" parameterType="FileVO">
+        INSERT INTO tbl_files (
+            f_seq,
+            f_b_seq,
+            f_org_name,
+            f_file_name
+        ) VALUES (
+            SEQ_FILE.NEXTVAL,
+            #{id},
+            #{vo.f_org_name},
+            #{vo.f_file_name}
+        )
+ 	</insert>
+
+</mapper>

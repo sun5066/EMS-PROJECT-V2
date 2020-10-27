@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.biz.ems.mapper.EmsDao">
+
+    <select id="selectAll" resultType="EmsVO">
+        SELECT * FROM tbl_ems
+ 	</select>
+
+    <select id="findById" resultType="EmsVO">
+        SELECT * FROM tbl_ems WHERE id = #{id}
+ 	</select>
+
+    <insert id="insert" parameterType="EmsVO">
+        INSERT INTO tbl_ems (
+            ID,
+            FROM_EMAIL,
+            TO_EMAIL,
+            S_DATE,
+            S_TIME,
+            S_SUBJECT,
+            S_CONTENT,
+            S_FILE1,
+            S_FILE2
+        ) VALUES (
+            SEQ_EMS.NEXTVAL,
+            #{from_email},
+            #{to_email},
+            #{s_date},
+            #{s_time},
+            #{s_subject},
+            #{s_content},
+            #{s_file1},
+            #{s_file2}
+        )
+ 	</insert>
+
+</mapper>
