@@ -21,5 +21,5 @@ public class EmsVO {
     private String s_file1;
     private String s_file2;
 
-    private List<FileVO> fileVOList;
+    private List<FileVO> emsFileVOList;
 }

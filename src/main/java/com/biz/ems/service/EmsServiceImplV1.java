@@ -4,13 +4,11 @@ import com.biz.ems.mapper.EmsDao;
 import com.biz.ems.mapper.FileDao;
 import com.biz.ems.model.EmsVO;
 import com.biz.ems.model.FileVO;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -20,6 +18,9 @@ public class EmsServiceImplV1 implements EmsService {
 
     @Autowired
     private EmsDao emsDao;
+
+    @Autowired
+    private NaverMailSendServiceV1 naverMailSendServiceV1;
 
     @Autowired
     private FileDao fileDao;
@@ -36,17 +37,26 @@ public class EmsServiceImplV1 implements EmsService {
     @Override
     public EmsVO findById(long id) {
         EmsVO emsVO = emsDao.findById(id);
-        List<FileVO> fileVOList = fileDao.findByID(id);
-        emsVO.setFileVOList(fileVOList);
+        List<FileVO> emsFileVOList = fileDao.findByID(id);
+        emsVO.setEmsFileVOList(emsFileVOList);
         return emsVO;
     }
 
     @Override
     public int insert(EmsVO emsVO, MultipartFile files[]) {
-        String file1Name = fileService.fileUp(files[0]);
-        String file2Name = fileService.fileUp(files[1]);
-        emsVO.setS_file1(file1Name);
-        emsVO.setS_file2(file2Name);
+        String file1Name = null;
+        String file2Name = null;
+
+        if (!files[0].getOriginalFilename().isEmpty()) {
+            file1Name = fileService.fileUp(files[0]);
+            emsVO.setS_file1(file1Name);
+        }
+
+        if (!files[1].getOriginalFilename().isEmpty()) {
+            file2Name = fileService.fileUp(files[1]);
+            emsVO.setS_file2(file2Name);
+        }
+        naverMailSendServiceV1.sendMail(emsVO);
         return emsDao.insert(emsVO);
     }
 

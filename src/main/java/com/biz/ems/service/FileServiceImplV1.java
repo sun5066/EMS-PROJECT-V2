@@ -1,5 +1,6 @@
 package com.biz.ems.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +10,13 @@ import java.util.UUID;
 
 @Service("fileServiceV1")
 public class FileServiceImplV1 implements FileService {
+
+    @Autowired
+    private String winPath;
+
+    @Autowired
+    private String linuxPath;
+
     private final String rootFolder;
 
     public FileServiceImplV1() {
@@ -19,12 +27,6 @@ public class FileServiceImplV1 implements FileService {
     public String fileUp(MultipartFile multipartFile) {
         if (multipartFile.getOriginalFilename().isEmpty()) {
             return null;
-        }
-
-        File dir = new File(rootFolder);
-
-        if (!dir.exists()) {
-            dir.mkdirs();
         }
 
         String originalFilename = multipartFile.getOriginalFilename();

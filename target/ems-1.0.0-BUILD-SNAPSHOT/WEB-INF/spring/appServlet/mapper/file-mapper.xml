@@ -18,5 +18,4 @@
             #{vo.f_file_name}
         )
  	</insert>
-
 </mapper>

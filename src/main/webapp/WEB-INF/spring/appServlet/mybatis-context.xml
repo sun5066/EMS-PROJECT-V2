@@ -19,6 +19,11 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="basicDataSource"/>
         <property name="mapperLocations" value="/WEB-INF/spring/appServlet/mapper/*-mapper.xml"/>
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <property name="jdbcTypeForNull" value="VARCHAR"/>
+            </bean>
+        </property>
         <property name="typeAliasesPackage" value="com.biz.ems.model"/>
     </bean>
 
